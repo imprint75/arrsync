@@ -12,6 +12,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             
     @IBOutlet weak var window: NSWindow!
 
+    @IBAction func originBtnPressed(sender: NSButton) {
+        let originDialog: NSOpenPanel = NSOpenPanel()
+        originDialog.allowsMultipleSelection = false
+        originDialog.canChooseDirectories = true
+        originDialog.runModal()
+    
+        var selected: String = originDialog.URL.absoluteString!
+        NSLog("%@", selected)
+    }
 
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
         // Insert code here to initialize your application
