@@ -44,29 +44,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 var filesInOrigin = getFileNamesFromDirectory(syncOrigin.path!)
                 let fileCopyManager = NSFileManager.defaultManager()
                 
-                var msg: String = ""
-                
                 for item in filesInOrigin {
                     let origPath: String! = syncOrigin.path?.stringByAppendingPathComponent(item)
                     let destPath: String! = syncTarget.path?.stringByAppendingPathComponent(item)
                     
                     if fileCopyManager.fileExistsAtPath(destPath) {
-                        msg += "File exists " + destPath + "\n"
+                        appendStatusMessage("File exists " + destPath)
                         NSLog("File exists %@", destPath)
+                    } else {
+                        let success = fileCopyManager.copyItemAtPath(origPath, toPath: destPath, error: &error)
+                        NSLog("%@", success)
+                        
+                        if let err = error {
+                            appendStatusMessage(err.localizedDescription)
+                        }
                     }
-                    
-                    let success = fileCopyManager.copyItemAtPath(origPath, toPath: destPath, error: &error)
-                    NSLog("%@", success)
                 }
-                
                 if let err = error {
-                    NSLog("%@", err)
-                }
-                
-                statusMessage.stringValue = msg
-            }
+                    appendStatusMessage(err.localizedDescription)
 
+                }
+            }
         }
+    }
+    
+    func appendStatusMessage(msg: String){
+        let updatedMsg = statusMessage.stringValue.stringByAppendingString(msg + "\n")
+        statusMessage.stringValue = updatedMsg
     }
     
     func getFileNamesFromDirectory(path: String) -> [String]{
