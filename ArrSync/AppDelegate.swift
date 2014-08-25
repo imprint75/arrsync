@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let syncOrigin = syncOption.origin? {
             if let syncTarget = syncOption.target? {
                 var error: NSError? = nil
-                var filesInOrigin = getFileNamesFromDirectory(syncOrigin.path!)
+                let filesInOrigin = getFileNamesFromDirectory(syncOrigin.path!)
                 let fileCopyManager = NSFileManager.defaultManager()
                 
                 for item in filesInOrigin {
@@ -93,12 +93,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let directorySelectDiag: NSOpenPanel = NSOpenPanel()
         directorySelectDiag.allowsMultipleSelection = false
         directorySelectDiag.canChooseFiles = false
+        directorySelectDiag.canCreateDirectories = true
         directorySelectDiag.canChooseDirectories = true
         directorySelectDiag.runModal()
         
-        //var selected: String = directorySelectDiag.URL.absoluteString!
-        
-        // Use path to show directory location
         var selected: NSURL = directorySelectDiag.URLs[0] as NSURL
         NSLog("%@", selected)
         return selected
