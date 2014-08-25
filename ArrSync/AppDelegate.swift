@@ -7,52 +7,83 @@
 //
 
 import Cocoa
+import Foundation
 
 
 class SyncMetaData {
-    var origin: String?
-    var target: String?
+    var origin: NSURL?
+    var target: NSURL?
     var syncStatus = false
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-                            
+    
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var originDirectory: NSTextField!
     @IBOutlet weak var targetDirectory: NSTextField!
+    @IBOutlet weak var statusMessage: NSTextField!
     
     var syncOption = SyncMetaData()
 
     @IBAction func originBtnPressed(sender: NSButton) {
-        originDirectory.stringValue = getAbsoluteURLOfDirectory()
-        syncOption.origin = originDirectory.stringValue
+        let originDirectoryURL = getAbsoluteURLOfDirectory()
+        originDirectory.stringValue = originDirectoryURL.path
+        syncOption.origin = originDirectoryURL
     }
     
     @IBAction func targetBtnPressed(sender: NSButton) {
-        targetDirectory.stringValue = getAbsoluteURLOfDirectory()
-        syncOption.target = targetDirectory.stringValue
+        let targetDirectoryURL = getAbsoluteURLOfDirectory()
+        targetDirectory.stringValue = targetDirectoryURL.path
+        syncOption.target = targetDirectoryURL
     }
     
     @IBAction func syncButtonPressed(sender: NSButton) {
         if let syncOrigin = syncOption.origin? {
-            getFileNamesFromDirectory(syncOrigin)
+            if let syncTarget = syncOption.target? {
+                var error: NSError? = nil
+                var filesInOrigin = getFileNamesFromDirectory(syncOrigin.path!)
+                let fileCopyManager = NSFileManager.defaultManager()
+                
+                var msg: String = ""
+                
+                for item in filesInOrigin {
+                    let origPath: String! = syncOrigin.path?.stringByAppendingPathComponent(item)
+                    let destPath: String! = syncTarget.path?.stringByAppendingPathComponent(item)
+                    
+                    if fileCopyManager.fileExistsAtPath(destPath) {
+                        msg += "File exists " + destPath + "\n"
+                        NSLog("File exists %@", destPath)
+                    }
+                    
+                    let success = fileCopyManager.copyItemAtPath(origPath, toPath: destPath, error: &error)
+                    NSLog("%@", success)
+                }
+                
+                if let err = error {
+                    NSLog("%@", err)
+                }
+                
+                statusMessage.stringValue = msg
+            }
+
         }
-        
     }
     
-    func getFileNamesFromDirectory(path: String) {
+    func getFileNamesFromDirectory(path: String) -> [String]{
         var error: NSError? = nil
+        var filenames = [String]()
         let fileManager = NSFileManager.defaultManager()
         let contents = fileManager.contentsOfDirectoryAtPath(path, error: &error)
         if contents != nil {
-            let filenames = contents as [String]
+            filenames = contents as [String]
             for item in filenames {
                 println(item)
             }
         }
+        return filenames
     }
     
-    func getAbsoluteURLOfDirectory() -> String {
+    func getAbsoluteURLOfDirectory() -> NSURL {
         let directorySelectDiag: NSOpenPanel = NSOpenPanel()
         directorySelectDiag.allowsMultipleSelection = false
         directorySelectDiag.canChooseFiles = false
@@ -62,7 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         //var selected: String = directorySelectDiag.URL.absoluteString!
         
         // Use path to show directory location
-        var selected: String = directorySelectDiag.URL.path!
+        var selected: NSURL = directorySelectDiag.URLs[0] as NSURL
         NSLog("%@", selected)
         return selected
     }
