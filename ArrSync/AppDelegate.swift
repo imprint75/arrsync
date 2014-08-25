@@ -53,7 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         NSLog("File exists %@", destPath)
                     } else {
                         let success = fileCopyManager.copyItemAtPath(origPath, toPath: destPath, error: &error)
-                        NSLog("%@", success)
+                        if success {
+                            appendStatusMessage("File copied to " + destPath)
+                        }
                         
                         if let err = error {
                             appendStatusMessage(err.localizedDescription)
