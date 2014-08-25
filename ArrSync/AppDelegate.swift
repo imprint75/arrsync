@@ -24,12 +24,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func getAbsoluteURLOfDirectory() -> String {
-        let originDialog: NSOpenPanel = NSOpenPanel()
-        originDialog.allowsMultipleSelection = false
-        originDialog.canChooseDirectories = true
-        originDialog.runModal()
+        let directorySelectDiag: NSOpenPanel = NSOpenPanel()
+        directorySelectDiag.allowsMultipleSelection = false
+        directorySelectDiag.canChooseFiles = false
+        directorySelectDiag.canChooseDirectories = true
+        directorySelectDiag.runModal()
         
-        var selected: String = originDialog.URL.absoluteString!
+        var selected: String = directorySelectDiag.URL.absoluteString!
         NSLog("%@", selected)
         return selected
     }
