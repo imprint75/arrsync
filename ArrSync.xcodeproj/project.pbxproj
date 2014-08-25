@@ -25,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8722042119AB84B5006ACA77 /* RsyncPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RsyncPlayground.playground; sourceTree = "<group>"; };
 		B0A3C5D719AB7FF1001C9874 /* ArrSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArrSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0A3C5DB19AB7FF1001C9874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0A3C5DC19AB7FF1001C9874 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		B0A3C5CE19AB7FF1001C9874 = {
 			isa = PBXGroup;
 			children = (
+				8722042119AB84B5006ACA77 /* RsyncPlayground.playground */,
 				B0A3C5D919AB7FF1001C9874 /* ArrSync */,
 				B0A3C5EC19AB7FF2001C9874 /* ArrSyncTests */,
 				B0A3C5D819AB7FF1001C9874 /* Products */,
@@ -397,6 +399,7 @@
 				B0A3C5F519AB7FF2001C9874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B0A3C5F619AB7FF2001C9874 /* Build configuration list for PBXNativeTarget "ArrSyncTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +408,7 @@
 				B0A3C5F819AB7FF2001C9874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
