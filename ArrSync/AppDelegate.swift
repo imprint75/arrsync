@@ -30,7 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         directorySelectDiag.canChooseDirectories = true
         directorySelectDiag.runModal()
         
-        var selected: String = directorySelectDiag.URL.absoluteString!
+        //var selected: String = directorySelectDiag.URL.absoluteString!
+        
+        // Use path to show directory location
+        var selected: String = directorySelectDiag.URL.path!
         NSLog("%@", selected)
         return selected
     }
