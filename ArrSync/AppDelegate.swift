@@ -8,20 +8,49 @@
 
 import Cocoa
 
+
+class SyncMetaData {
+    var origin: String?
+    var target: String?
+    var syncStatus = false
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
                             
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var originDirectory: NSTextField!
     @IBOutlet weak var targetDirectory: NSTextField!
+    
+    var syncOption = SyncMetaData()
 
     @IBAction func originBtnPressed(sender: NSButton) {
         originDirectory.stringValue = getAbsoluteURLOfDirectory()
+        syncOption.origin = originDirectory.stringValue
     }
     
     @IBAction func targetBtnPressed(sender: NSButton) {
         targetDirectory.stringValue = getAbsoluteURLOfDirectory()
+        syncOption.target = targetDirectory.stringValue
     }
     
+    @IBAction func syncButtonPressed(sender: NSButton) {
+        if let syncOrigin = syncOption.origin? {
+            getFileNamesFromDirectory(syncOrigin)
+        }
+        
+    }
+    
+    func getFileNamesFromDirectory(path: String) {
+        var error: NSError? = nil
+        let fileManager = NSFileManager.defaultManager()
+        let contents = fileManager.contentsOfDirectoryAtPath(path, error: &error)
+        if contents != nil {
+            let filenames = contents as [String]
+            for item in filenames {
+                println(item)
+            }
+        }
+    }
     
     func getAbsoluteURLOfDirectory() -> String {
         let directorySelectDiag: NSOpenPanel = NSOpenPanel()
