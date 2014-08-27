@@ -97,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         directorySelectDiag.canChooseDirectories = true
         directorySelectDiag.runModal()
         
-        var selected: NSURL = directorySelectDiag.URLs[0] as NSURL
+        let selected: NSURL = directorySelectDiag.URLs[0] as NSURL
         NSLog("%@", selected)
         return selected
     }
